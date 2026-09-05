@@ -31,9 +31,13 @@ const { data: cases } = await useAsyncData(`cases`, () => $wp.cases())
 
 <template>
   <main>
-    <BlocksHero />
     <div class="grid grid-cols-12 gap-20 p-base">
-      <BlocksCases :cases="cases" class="col-span-7" />
+      <div class="col-span-7 flex flex-col gap-base">
+        <BlocksHero />
+        <BlocksCases :cases="cases" />
+        <BlocksForm />
+        <BlocksShare />
+      </div>
       <BlocksMap :cases="cases" class="col-span-5" />
     </div>
   </main>

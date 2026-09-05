@@ -5,16 +5,22 @@ defineProps({
     required: true
   }
 })
+
+const { caseInView, caseElements } = useHighlightedCase({ track: true })
 </script>
 
 <template>
-  <section class="flex flex-col gap-4">
-    <article
-      v-for="item in cases" :key="item.id"
-      class="border-2 rounded-lg h-[50vh]"
+  <section class="flex flex-col gap-base">
+    <h3 class="sr-only">Casos</h3>
+    <BlocksCase
+      v-for="(item, i) in cases" :key="item.id"
+      ref="caseElements"
+      :item="item"
+      :in-view="caseInView === `pin-${item.id}`"
       :id="`pin-${item.id}`"
+      :number="i + 1"
     >
       {{ item.fields.name }}
-    </article>
+    </BlocksCase>
   </section>
 </template>

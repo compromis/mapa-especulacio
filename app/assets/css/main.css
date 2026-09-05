@@ -3,6 +3,7 @@
 @theme {
   --font-sans: "Manrope", sans-serif;
   --font-headline: "Instrument Serif", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
 
   --color-yellow: #ffcc12;
   --color-black: #000;
@@ -19,8 +20,9 @@
   --text-4xl: clamp(3.5rem, 4.54vi + 2.68rem, 6.31rem);
   --text-5xl: clamp(7.75rem, 5vi + 0.25rem, 8.6rem);
 
-  --spacing-base: calc(var(--spacing) * 6);
+  --spacing-base: calc(var(--spacing) * 14);
   --spacing-nav: 4rem;
+  --spacing-card: calc(var(--spacing) * 3);
 }
 
 @import "./global.css";
