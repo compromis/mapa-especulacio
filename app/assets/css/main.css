@@ -2,7 +2,8 @@
 
 @theme {
   --font-sans: "Manrope", sans-serif;
-  --font-headline: "Instrument Serif", sans-serif;
+  --font-heading: "Instrument Serif", sans-serif;
+  --font-headline: "DM Serif Display", serif;
   --font-mono: "JetBrains Mono", monospace;
 
   --color-yellow: #ffcc12;

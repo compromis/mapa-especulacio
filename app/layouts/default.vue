@@ -14,7 +14,7 @@ useHead({
     { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
     { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
     { rel: 'stylesheet', href: 'https://compromis.net/sub/fonts/manrope.css?variable' },
-    { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Instrument+Serif&family=JetBrains+Mono&display=swap' },
+    { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Instrument+Serif&family=JetBrains+Mono&family=DM+Serif+Display&display=swap' },
   ]
 })
 </script>

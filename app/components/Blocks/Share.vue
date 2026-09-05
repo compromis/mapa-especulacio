@@ -43,7 +43,7 @@ const share = async () => {
     <div class="max-w-250 p-site">
       <div class="border-2 border-black rounded-2xl overflow-clip">
         <div class="py-6 px-8 border-b-2 border-black">
-          <h2 class="text-xl font-headline">{{ texts.title }}</h2>
+          <h2 class="text-xl font-heading">{{ texts.title }}</h2>
           <p class="text-base">{{ texts.intro }}</p>
         </div>
         <div class="buttons grid md:grid-cols-2">

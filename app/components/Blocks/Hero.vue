@@ -1,7 +1,7 @@
 <template>
   <header class="flex flex-col gap-4 mb-[2vh]">
     <SiteLogo class="mb-[5vh]" />
-    <h1 class="font-headline text-5xl tracking-tight leading-[.85] mb-7">
+    <h1 class="font-heading text-5xl tracking-tight leading-[.85] mb-7">
       <img src="~/assets/images/pin.png" alt="" class="inline-block h-[1em] mx-[-.3em] translate-y-[-.15em]" />
       Mapa de l’
       <img src="~/assets/images/money-mouth-face.png" alt="" class="inline-block h-[1em] mx-[-.28em] translate-y-[-.1em]" />
