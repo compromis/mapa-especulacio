@@ -17,7 +17,7 @@ defineProps({
       :href="href"
       class="
         font-semibold text-md px-5 py-2 flex
-        rounded-full group-hover:bg-white group-hover:text-black border-2 items-center
+        rounded-full group-hover:bg-white group-hover:text-black border-2 border-black items-center
         gap-2 group-hover:shadow-[.25em_.25em_0_0_var(--color-black)] group-hover:-translate-2
         transition-all
       "

@@ -1,11 +1,11 @@
 <template>
-  <header class="flex flex-col gap-4 mb-[2vh]">
-    <SiteLogo class="mb-[5vh]" />
-    <h1 class="font-heading text-5xl tracking-tight leading-[.85] mb-7">
+  <header class="flex flex-col gap-5 mb-[4vh]">
+    <SiteLogo class="mb-[8vh]" />
+    <h1 class="font-heading text-5xl tracking-tight leading-[.85] mb-[5vh]">
       <img src="~/assets/images/pin.png" alt="" class="inline-block h-[1em] mx-[-.3em] translate-y-[-.15em]" />
-      Mapa de l’
+      Mapa de <span class="whitespace-nowrap">l’
       <img src="~/assets/images/money-mouth-face.png" alt="" class="inline-block h-[1em] mx-[-.28em] translate-y-[-.1em]" />
-      especulació<br>al
+      especulació</span><br>al
       <img src="~/assets/images/pv-emoji.png" alt="" class="inline-block h-[1.5em] my-[-.3em] ms-[-.1em] me-[-.3em] translate-y-[-.1em]" />
       País Valencià
     </h1>

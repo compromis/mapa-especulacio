@@ -25,7 +25,7 @@ defineProps({
     <div class="text-base flex border-b-2">
       <span class="p-card border-r-2 font-bold">#{{ number }}</span>
       <h3 class="p-card font-bold">{{ item.fields.name }}</h3>
-      <span class="p-card ms-auto uppercase font-mono text-black/50">{{ item.fields.comarca }}</span>
+      <span class="p-card ms-auto uppercase font-mono text-black/50 pe-5">{{ item.fields.comarca }}</span>
     </div>
     <LegosFactRow>
       <LegosFact title="Tipus" class="grow">

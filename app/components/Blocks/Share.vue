@@ -40,10 +40,14 @@ const share = async () => {
 
 <template>
   <section id="share">
-    <div class="max-w-250 p-site">
+    <div class="group max-w-250 p-site">
       <div class="border-2 border-black rounded-2xl overflow-clip">
         <div class="py-6 px-8 border-b-2 border-black">
-          <h2 class="text-xl font-heading">{{ texts.title }}</h2>
+          <h2 class="text-xl font-heading flex items-center gap-2">
+            {{ texts.title }}
+            <img src="~/assets/images/megaphone.png" alt="" class="h-[1em] group-hover:rotate-8 group-hover:scale-125 transition-all" />
+
+          </h2>
           <p class="text-base">{{ texts.intro }}</p>
         </div>
         <div class="buttons grid md:grid-cols-2">

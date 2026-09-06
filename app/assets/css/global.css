@@ -3,6 +3,17 @@
     scroll-behavior: smooth;
   }
 
+  *:focus-visible {
+    outline: var(--border-width, 2px) solid
+      var(--color-focus, var(--color-orange));
+    outline-offset: var(--border-width, 2px);
+  }
+
+  ::selection {
+    color: var(--color-selection-foreground, var(--color-white));
+    background-color: var(--color-selection-background, var(--color-orange));
+  }
+
   .prose {
     span {
       font-weight: 500 !important;

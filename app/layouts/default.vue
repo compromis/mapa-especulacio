@@ -1,6 +1,6 @@
 <script setup>
 useHead({
-  htmlAttrs: { lang: 'ca-ES', class: 'bg-yellow font-sans' },
+  htmlAttrs: { lang: 'ca-ES', class: 'bg-yellow font-sans bg-linear-to-r from-yellow to-[#f98a02] from-60%' },
   meta: [
     { name: 'theme-color', content: '#f1f0eb' },
     { name: 'msapplication-TileColor', content: '#f1f0eb' },
@@ -15,6 +15,9 @@ useHead({
     { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
     { rel: 'stylesheet', href: 'https://compromis.net/sub/fonts/manrope.css?variable' },
     { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Instrument+Serif&family=JetBrains+Mono&family=DM+Serif+Display&display=swap' },
+  ],
+  script: [
+    { src: 'https://server.fillout.com/embed/v1/' }
   ]
 })
 </script>
