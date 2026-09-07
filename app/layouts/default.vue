@@ -17,7 +17,7 @@ useHead({
     { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Instrument+Serif&family=JetBrains+Mono&family=DM+Serif+Display&display=swap' },
   ],
   script: [
-    { src: 'https://server.fillout.com/embed/v1/' }
+    { src: 'https://server.fillout.com/embed/v1/', defer: true }
   ]
 })
 </script>
