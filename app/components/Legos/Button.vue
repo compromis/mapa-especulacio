@@ -23,7 +23,8 @@ defineProps({
       "
       :class="{
         'text-yellow bg-black': variant === 'default',
-        'text-black': variant === 'outline'
+        'text-black': variant === 'outline',
+        'text-black bg-white justify-center': variant === 'white'
       }"
     >
       <slot />

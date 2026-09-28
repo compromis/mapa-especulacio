@@ -1,7 +1,7 @@
 <template>
-  <header class="flex flex-col gap-5 mb-[4vh]">
+  <header class="flex flex-col gap-5 mb-[4vh] p-2 md:p-0">
     <SiteLogo class="mb-[8vh]" />
-    <h1 class="font-heading text-5xl tracking-tight leading-[.85] mb-[5vh]">
+    <h1 class="font-heading text-3xl md:text-5xl tracking-tight leading-[.85] mb-[5vh]">
       <img src="~/assets/images/pin.png" alt="" class="inline-block h-[1em] mx-[-.3em] translate-y-[-.15em]" />
       Mapa de <span class="whitespace-nowrap">l’
       <img src="~/assets/images/money-mouth-face.png" alt="" class="inline-block h-[1em] mx-[-.28em] translate-y-[-.1em]" />
@@ -14,6 +14,16 @@
     </h2>
     <p class="max-w-[70ch] leading-snug text-base">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </p>
+    <p class="md:hidden flex gap-3">
+      <LegosButton
+        href="#map"
+        class="block w-full"
+        variant="white"
+      >
+        <img src="~/assets/images/warning.png" alt="" class="h-[1em] group-hover:-rotate-3 group-hover:scale-125 transition-all" />
+        Veure el mapa
+      </LegosButton>
     </p>
     <p class="flex gap-3">
       <LegosButton

@@ -43,7 +43,7 @@ const share = async () => {
     <div class="group max-w-250 p-site">
       <div class="border-2 border-black rounded-2xl overflow-clip">
         <div class="py-6 px-8 border-b-2 border-black">
-          <h2 class="text-xl font-heading flex items-center gap-2">
+          <h2 class="text-xl leading-none font-heading flex items-center gap-2 mb-4">
             {{ texts.title }}
             <img src="~/assets/images/megaphone.png" alt="" class="h-[1em] group-hover:rotate-8 group-hover:scale-125 transition-all" />
 
