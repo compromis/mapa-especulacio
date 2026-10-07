@@ -31,24 +31,17 @@ defineProps({
       <LegosFact title="Tipus" class="grow">
         {{ item.fields.type }}
       </LegosFact>
-      <LegosFact title="Estat" class="basis-[25%]">
-        <span class="flex items-center gap-2">
+      <LegosFact title="Estat" class="basis-[50%]">
+        <span class="flex items-baseline gap-2">
           <span
-            class="h-[1em] w-[1em] rounded-full"
-            :class="{
-              'bg-amber-500': item.fields.status === 'Projectat',
-              'bg-green-500': item.fields.status === 'Paralitzat',
-              'bg-orange-500': item.fields.status === 'En tramitació',
-              'bg-blue-500': item.fields.status === 'Reactivat',
-              'bg-amber-800': item.fields.status === 'Judicialitzat'
-            }"
+            class="h-[1em] w-[1em] top-0.5 relative shrink-0 rounded-full bg-amber-500"
           />
           {{ item.fields.status }}
         </span>
       </LegosFact>
     </LegosFactRow>
     <LegosFactRow v-if="item.fields.affects || item.fields.area">
-      <LegosFact v-if="item.fields.affects" title="Affecció" class="grow">
+      <LegosFact v-if="item.fields.affects" title="Afecció" class="grow">
         {{ item.fields.affects }}
       </LegosFact>
       <LegosFact v-if="item.fields.area" title="Superfície afectada" class="basis-[25%]">

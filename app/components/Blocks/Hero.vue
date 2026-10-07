@@ -13,7 +13,16 @@
       Cartografia de macroprojectes, pressions urbanístiques i conflictes territorials
     </h2>
     <p class="max-w-[70ch] leading-snug text-base">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      Durant dècades, el territori valencià ha estat sotmés a un model de creixement basat en la transformació del sòl i en les expectatives de rendibilitat econòmica. El valor del sòl s’ha calculat en funció del seu potencial urbanístic i no de les funcions ambientals que compleix per al conjunt de la societat.
+    </p>
+    <p class="max-w-[70ch] leading-snug text-base">
+    Però el territori és finit i la crisi climàtica ens obliga a entendre que un sòl agrícola, una plana d’inundació o un espai periurbà no són simplement terrenys disponibles per al negoci d’uns pocs: són infraestructura ambiental, espais de protecció i elements essencials per a un territori i una societat resilients.
+    </p>
+    <p class="max-w-[70ch] leading-snug text-base">
+    Aquest mapa fa visibles els punts on actualment s’està donant aquesta pressió i evidencia la necessitat d’un canvi del model territorial que erradique l’especulació del nostre territori, permeta la desclassificació de sòls inadequats i reconega i protegisca les funcions ambientals de què ens proveeix.
+    </p>
+    <p class="max-w-[70ch] leading-snug text-base">
+    Davant del fals dilema entre protegir el territori o garantir habitatge assequible, defensem un model que faça compatibles ambdós objectius. La solució no és devorar més horta, més espais naturals o més sòl protegit, sinó aprofitar millor les ciutats existents: completar buits urbans, reconvertir sòls i edificis infrautilitzats i impulsar la rehabilitació i la densificació dels espais ja urbanitzats. Necessitem més habitatges, però també més territori protegit, més resiliència climàtica i més qualitat de vida. El creixement urbà del futur ha de produir-se cap endins i no a costa dels últims espais lliures del territori valencià.
     </p>
     <p class="md:hidden flex gap-3">
       <LegosButton
