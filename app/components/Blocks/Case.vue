@@ -27,6 +27,14 @@ defineProps({
       <h3 class="p-card font-bold">{{ item.fields.name }}</h3>
       <span class="p-card ms-auto uppercase font-mono text-black/50 pe-5">{{ item.fields.comarca }}</span>
     </div>
+      <LegosFactRow v-if="item.fields.actuacio || item.fields.area">
+      <LegosFact v-if="item.fields.actuacio" title="Actuació" class="grow font-bold">
+        {{ item.fields.actuacio }}
+      </LegosFact>
+      <LegosFact v-if="item.fields.area" title="Superfície afectada" class="basis-[38%]">
+        {{ item.fields.area }} m²
+      </LegosFact>
+    </LegosFactRow>
     <LegosFactRow>
       <LegosFact title="Tipus" class="grow">
         {{ item.fields.type }}
@@ -38,14 +46,6 @@ defineProps({
           />
           {{ item.fields.status }}
         </span>
-      </LegosFact>
-    </LegosFactRow>
-    <LegosFactRow v-if="item.fields.affects || item.fields.area">
-      <LegosFact v-if="item.fields.affects" title="Afecció" class="grow">
-        {{ item.fields.affects }}
-      </LegosFact>
-      <LegosFact v-if="item.fields.area" title="Superfície afectada" class="basis-[25%]">
-        {{ item.fields.area }} m²
       </LegosFact>
     </LegosFactRow>
     <LegosFactRow v-if="item.fields.description">
