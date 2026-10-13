@@ -29,38 +29,117 @@ const orderedCases = computed(() => {
     ? [...props.cases.filter((item) => item !== selectedCase), selectedCase]
     : props.cases
 })
+
+const svgEl = ref(null)
+const view = reactive({ x: 0, y: 0, k: 1 })
+const MIN_ZOOM = 1
+const MAX_ZOOM = 8
+let drag = null
+let moved = false
+
+const toSvgPoint = (clientX, clientY) => {
+  const ctm = svgEl.value.getScreenCTM()
+  return { x: (clientX - ctm.e) / ctm.a, y: (clientY - ctm.f) / ctm.d, scale: ctm.a }
+}
+
+const clampView = () => {
+  view.x = Math.min(0, Math.max(460 * (1 - view.k), view.x))
+  view.y = Math.min(0, Math.max(855 * (1 - view.k), view.y))
+}
+
+const zoomAt = (px, py, factor) => {
+  const k = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, view.k * factor))
+  const ratio = k / view.k
+  view.x = px - (px - view.x) * ratio
+  view.y = py - (py - view.y) * ratio
+  view.k = k
+  clampView()
+}
+
+const onWheel = (e) => {
+  const p = toSvgPoint(e.clientX, e.clientY)
+  zoomAt(p.x, p.y, Math.exp(-e.deltaY * 0.002))
+}
+
+const zoomBy = (factor) => zoomAt(230, 427.5, factor)
+const resetView = () => Object.assign(view, { x: 0, y: 0, k: 1 })
+
+const onMove = (e) => {
+  if (!drag) return
+  const dx = e.clientX - drag.cx
+  const dy = e.clientY - drag.cy
+  if (!moved && Math.hypot(dx, dy) < 4) return
+  moved = true
+  view.x = drag.x + dx / drag.scale
+  view.y = drag.y + dy / drag.scale
+  clampView()
+}
+
+const onUp = () => {
+  drag = null
+  window.removeEventListener('pointermove', onMove)
+  window.removeEventListener('pointerup', onUp)
+}
+
+const onDown = (e) => {
+  if (e.button !== 0) return
+  moved = false
+  drag = { cx: e.clientX, cy: e.clientY, x: view.x, y: view.y, scale: toSvgPoint(0, 0).scale }
+  window.addEventListener('pointermove', onMove)
+  window.addEventListener('pointerup', onUp)
+}
+
+const onClickCapture = (e) => {
+  if (moved) {
+    e.preventDefault()
+    e.stopPropagation()
+    moved = false
+  }
+}
+
+onBeforeUnmount(onUp)
 </script>
 
 <template>
   <aside id="map">
     <div class="sticky top-0 md:min-h-svh flex items-center">
-      <svg width="460" height="855" viewBox="0 0 460 855" preserveAspectRatio="xMinYMin meet" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-[80vh] w-full">
-        <path class="fill-yellow" d="M138.197 272.669L150.153 276.38L163.826 268.672L153.7 242.294L163.826 230.99V220.541L190.198 219.285L203.127 208.609L203.413 199.645L213.882 187.997L220.232 160.363L242.028 163.846L254.443 154.483L251.868 146.432L267.314 132.101L277.554 125.136L265.541 108.122L268.287 98.4155L281.101 94.1905L273.664 84.8269L274.351 66.1569L270.06 55.2518L255.93 50.1704L255.129 39.5507L267.2 34.0125L287.108 30.3585L296.033 7.06378L304.843 2.95296L317.886 14.3148L328.984 21.1091L343.687 18.0831L347.92 28.7598L354.156 31.8429L359.018 22.9361L379.727 18.5969L385.563 20.5953L391.112 16.9983L393.743 27.7892L400.322 27.047L408.674 31.8429L401.066 41.0352L406.558 48.4004L412.279 50.8555L424.979 54.1099L430.528 55.0805L441.054 63.1309L437.908 70.0965L456.5 76.434L432.988 126.335L426.352 132.901L412.679 151.856L400.551 158.365V168.756L394.201 176.693L382.817 183.658L373.778 207.124L368.686 212.491L360.62 217.858L351.009 224.938L347.577 239.44L342.142 256.511L337.966 258.452L322.52 276.152L300.552 314.862L295.117 331.648L284.076 345.864L280.529 358.882L271.834 372.528L268.687 390.056L269.145 409.925L283.104 448.236L293.115 468.675L286.307 471.073L289.797 481.465L298.435 505.387L305.186 517.948L315.14 538.445L331.101 552.89L340.998 560.37L353.011 562.254L361.879 564.88L369.602 569.962H374.693L384.361 578.298L378.469 581.209L383.617 587.49L389.51 590.402L392.713 595.826L389.281 600.051H383.56L378.755 605.646L374.235 614.267L370.574 611.641L355.071 625.972L358.503 630.025H352.783L342.943 629.797L334.648 633.679L327.154 645.612L328.412 650.465L319.144 658.744L308.447 656.289L303.813 660.114L299.351 662.056H292.886L288.538 666.509H284.591L278.241 668.279L255.873 684.265L250.838 691.745L248.607 699.339L250.095 707.389H245.232L241.857 704.705L232.646 711.671L226.068 713.669L225.038 725.773L226.811 748.725L223.436 754.207L213.711 755.463H207.704L200.896 763.456L197.063 776.017L195.404 803.194L196.491 808.618L191.4 815.641L185.965 816.783L183.047 822.321L179.729 826.603V832.427L174.295 834.939L173.093 841.847L168.517 851.953L162.968 850.354L159.135 847.043L152.899 845.673C152.899 845.673 141.114 834.482 140.37 832.598C139.627 830.714 132.476 820.551 132.476 820.551L122.579 803.594L117.945 795.657L108.677 785.438L107.076 770.25L119.089 754.835L124.123 735.194C124.123 735.194 125.382 724.003 123.609 722.462C121.835 720.92 112.739 712.299 112.739 712.299L99.2954 709.673L95.4053 683.238L114.398 666.909L111.881 660.571L113.426 647.154L110.565 620.262L120.062 621.119L139.798 612.783L129.101 598.166L125.496 585.149H132.991L133.734 579.839L137.396 574.072L132.762 566.022L134.535 553.975L128.185 543.983L127.041 536.447L117.831 534.848L112.167 540.215L101.927 539.93L91.9728 541.757L85.68 541.414L70.7487 523.03L57.7054 507.1L59.536 494.882L65.7717 475.298L75.2682 463.023L78.7006 439.443L78.9867 432.82L62.5108 429.394L46.2639 424.541L30.3029 423.114L27.9002 414.55L16.2298 417.176L13.4839 408.383L11.0812 405.015L2.5 397.821V390.969L4.27344 376.353L5.01714 367.218L5.24597 358.825L12.1681 355.285L19.6051 339.47L22.0078 331.02L30.589 326.738L38.1404 323.141L44.2616 328.793L53.7009 327.252L58.2203 322.741L56.218 314.919L56.504 307.782L61.8816 298.875L68.4032 289.455L68.5177 275.695L72.3506 261.478L72.0073 254.399L69.3758 248.061L84.307 241.153L85.6227 245.32L93.0597 241.838L115.371 239.268L127.156 241.781C127.156 241.781 131.732 243.493 133.105 245.035C134.478 246.577 137.796 254.284 137.796 254.284L135.794 260.508L138.483 265.418L137.911 272.669H138.197Z" stroke="black" stroke-width="5"/>
-        <path class="fill-yellow" d="M41.6992 229.404L50.6223 230.996L60.4605 233.953L66.9241 232.133L75.0463 231.735L86.2002 228.607L94.8373 224.285L100.5 216.722L95.5237 207.225L85.2278 200.117L80.0799 197.33L74.9891 201.083L65.6085 199.434L59.3738 197.33L62.0621 193.861L59.0878 189.539L51.3087 178.166L51.9951 173.787L50.7939 168.953L44.1588 173.9L44.788 180.952L44.216 190.108L40.0404 191.814L36.6085 194.487L31.2318 191.643L26.8846 192.951L23.2811 190.449L18.7051 188.572L13.5 187.606V195.397L18.9339 198.24L23.7387 202.903L23.8531 206.941L25.3974 211.945L29.1726 213.651L29.001 216.893L31.0602 222.636L32.2041 228.721L41.6992 229.404Z" stroke="black" stroke-width="5"/>
-        <a
-          v-for="item in orderedCases" :key="item.id"
-          :href="`#pin-${item.id}`"
-          @click.prevent="selectCase(`pin-${item.id}`)"
-          :transform="`translate(${getMapPosition(item.fields.map.lat, item.fields.map.lng).x} ${getMapPosition(item.fields.map.lat, item.fields.map.lng).y})`"
-          :aria-label="item.fields.name"
-          class="group"
-        >
-          <image :href="pin" x="-10" y="-40" width="40" height="40" preserveAspectRatio="xMidYMid meet" />
-          <foreignObject
-            x="30"
-            y="-40"
-            width="300"
-            height="60"
-            overflow="visible"
-            class="pointer-events-none opacity-0 transition-all translate-y-2 group-hover:opacity-100 group-hover:translate-y-0"
-            :class="{ 'opacity-100 translate-y-0!': caseInView === `pin-${item.id}` }"
+      <div class="map-wrapper relative">
+        <div class="absolute top-4 right-4 z-10 flex flex-col gap-1">
+          <button type="button" aria-label="Apropa" class="size-8 rounded border-2 border-black bg-white font-bold cursor-pointer" @click="zoomBy(1.5)">+</button>
+          <button type="button" aria-label="Allunya" class="size-8 rounded border-2 border-black bg-white font-bold cursor-pointer" @click="zoomBy(1 / 1.5)">−</button>
+          <button type="button" aria-label="Restableix" class="size-8 rounded border-2 border-black bg-white font-bold cursor-pointer" @click="resetView">⟲</button>
+        </div>
+
+        <svg ref="svgEl" @wheel.prevent="onWheel" @pointerdown="onDown" @click.capture="onClickCapture" style="touch-action:none" width="460" height="855" viewBox="0 0 460 855" preserveAspectRatio="xMinYMin meet" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-[80vh] w-full cursor-grab active:cursor-grabbing">
+          <g :transform="`translate(${view.x} ${view.y}) scale(${view.k})`">
+          <path class="fill-yellow" d="M138.197 272.669L150.153 276.38L163.826 268.672L153.7 242.294L163.826 230.99V220.541L190.198 219.285L203.127 208.609L203.413 199.645L213.882 187.997L220.232 160.363L242.028 163.846L254.443 154.483L251.868 146.432L267.314 132.101L277.554 125.136L265.541 108.122L268.287 98.4155L281.101 94.1905L273.664 84.8269L274.351 66.1569L270.06 55.2518L255.93 50.1704L255.129 39.5507L267.2 34.0125L287.108 30.3585L296.033 7.06378L304.843 2.95296L317.886 14.3148L328.984 21.1091L343.687 18.0831L347.92 28.7598L354.156 31.8429L359.018 22.9361L379.727 18.5969L385.563 20.5953L391.112 16.9983L393.743 27.7892L400.322 27.047L408.674 31.8429L401.066 41.0352L406.558 48.4004L412.279 50.8555L424.979 54.1099L430.528 55.0805L441.054 63.1309L437.908 70.0965L456.5 76.434L432.988 126.335L426.352 132.901L412.679 151.856L400.551 158.365V168.756L394.201 176.693L382.817 183.658L373.778 207.124L368.686 212.491L360.62 217.858L351.009 224.938L347.577 239.44L342.142 256.511L337.966 258.452L322.52 276.152L300.552 314.862L295.117 331.648L284.076 345.864L280.529 358.882L271.834 372.528L268.687 390.056L269.145 409.925L283.104 448.236L293.115 468.675L286.307 471.073L289.797 481.465L298.435 505.387L305.186 517.948L315.14 538.445L331.101 552.89L340.998 560.37L353.011 562.254L361.879 564.88L369.602 569.962H374.693L384.361 578.298L378.469 581.209L383.617 587.49L389.51 590.402L392.713 595.826L389.281 600.051H383.56L378.755 605.646L374.235 614.267L370.574 611.641L355.071 625.972L358.503 630.025H352.783L342.943 629.797L334.648 633.679L327.154 645.612L328.412 650.465L319.144 658.744L308.447 656.289L303.813 660.114L299.351 662.056H292.886L288.538 666.509H284.591L278.241 668.279L255.873 684.265L250.838 691.745L248.607 699.339L250.095 707.389H245.232L241.857 704.705L232.646 711.671L226.068 713.669L225.038 725.773L226.811 748.725L223.436 754.207L213.711 755.463H207.704L200.896 763.456L197.063 776.017L195.404 803.194L196.491 808.618L191.4 815.641L185.965 816.783L183.047 822.321L179.729 826.603V832.427L174.295 834.939L173.093 841.847L168.517 851.953L162.968 850.354L159.135 847.043L152.899 845.673C152.899 845.673 141.114 834.482 140.37 832.598C139.627 830.714 132.476 820.551 132.476 820.551L122.579 803.594L117.945 795.657L108.677 785.438L107.076 770.25L119.089 754.835L124.123 735.194C124.123 735.194 125.382 724.003 123.609 722.462C121.835 720.92 112.739 712.299 112.739 712.299L99.2954 709.673L95.4053 683.238L114.398 666.909L111.881 660.571L113.426 647.154L110.565 620.262L120.062 621.119L139.798 612.783L129.101 598.166L125.496 585.149H132.991L133.734 579.839L137.396 574.072L132.762 566.022L134.535 553.975L128.185 543.983L127.041 536.447L117.831 534.848L112.167 540.215L101.927 539.93L91.9728 541.757L85.68 541.414L70.7487 523.03L57.7054 507.1L59.536 494.882L65.7717 475.298L75.2682 463.023L78.7006 439.443L78.9867 432.82L62.5108 429.394L46.2639 424.541L30.3029 423.114L27.9002 414.55L16.2298 417.176L13.4839 408.383L11.0812 405.015L2.5 397.821V390.969L4.27344 376.353L5.01714 367.218L5.24597 358.825L12.1681 355.285L19.6051 339.47L22.0078 331.02L30.589 326.738L38.1404 323.141L44.2616 328.793L53.7009 327.252L58.2203 322.741L56.218 314.919L56.504 307.782L61.8816 298.875L68.4032 289.455L68.5177 275.695L72.3506 261.478L72.0073 254.399L69.3758 248.061L84.307 241.153L85.6227 245.32L93.0597 241.838L115.371 239.268L127.156 241.781C127.156 241.781 131.732 243.493 133.105 245.035C134.478 246.577 137.796 254.284 137.796 254.284L135.794 260.508L138.483 265.418L137.911 272.669H138.197Z" stroke="black" stroke-width="5"/>
+          <path class="fill-yellow" d="M41.6992 229.404L50.6223 230.996L60.4605 233.953L66.9241 232.133L75.0463 231.735L86.2002 228.607L94.8373 224.285L100.5 216.722L95.5237 207.225L85.2278 200.117L80.0799 197.33L74.9891 201.083L65.6085 199.434L59.3738 197.33L62.0621 193.861L59.0878 189.539L51.3087 178.166L51.9951 173.787L50.7939 168.953L44.1588 173.9L44.788 180.952L44.216 190.108L40.0404 191.814L36.6085 194.487L31.2318 191.643L26.8846 192.951L23.2811 190.449L18.7051 188.572L13.5 187.606V195.397L18.9339 198.24L23.7387 202.903L23.8531 206.941L25.3974 211.945L29.1726 213.651L29.001 216.893L31.0602 222.636L32.2041 228.721L41.6992 229.404Z" stroke="black" stroke-width="5"/>
+          <a
+            v-for="item in orderedCases" :key="item.id"
+            :href="`#pin-${item.id}`"
+            @click.prevent="selectCase(`pin-${item.id}`)"
+            :transform="`translate(${getMapPosition(item.fields.map.lat, item.fields.map.lng).x} ${getMapPosition(item.fields.map.lat, item.fields.map.lng).y}) scale(${1 / view.k})`"
+            :aria-label="item.fields.name"
+            class="group"
           >
-            <div xmlns="http://www.w3.org/1999/xhtml" class="inline-block whitespace-nowrap rounded-lg border-2 border-black bg-white px-3 py-2 font-sans text-base font-semibold leading-none text-black">
-              {{ item.fields.name }}
-            </div>
-          </foreignObject>
-        </a>
-      </svg>
+            <image :href="pin" x="-10" y="-40" width="40" height="40" preserveAspectRatio="xMidYMid meet" />
+            <foreignObject
+              x="30"
+              y="-40"
+              width="300"
+              height="60"
+              overflow="visible"
+              class="pointer-events-none opacity-0 transition-all translate-y-2 group-hover:opacity-100 group-hover:translate-y-0"
+              :class="{ 'opacity-100 translate-y-0!': caseInView === `pin-${item.id}` }"
+            >
+              <div xmlns="http://www.w3.org/1999/xhtml" class="inline-block whitespace-nowrap rounded-lg border-2 border-black bg-white px-3 py-2 font-sans text-base font-semibold leading-none text-black">
+                {{ item.fields.name }}
+              </div>
+            </foreignObject>
+          </a>
+          </g>
+        </svg>
+      </div>
     </div>
   </aside>
 </template>

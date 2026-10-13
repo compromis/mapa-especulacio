@@ -40,3 +40,11 @@
 .stroke-1 {
   vector-effect: non-scaling-stroke;
 }
+
+.map-wrapper {
+  background-image: url("../images/bg.webp");
+  background-size: cover;
+  background-position: center;
+  border-radius: 1rem;
+  margin-block: 1rem;
+}
