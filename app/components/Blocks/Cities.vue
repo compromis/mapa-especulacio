@@ -12,7 +12,7 @@
       <li v-for="city in filteredCities" :key="city.name">
         <LegosButton :href="`#pin-${city.firstId}`" variant="white" size="base">
           {{ city.name }}
-          <span v-if="city.count > 1" class="font-mono bg-orange-500 text-white w-[1.5em] h-[1.5em] text-[.9rem] flex items-center justify-center rounded-full">{{ city.count }}</span>
+          <span v-if="city.count > 1" class="font-mono bg-orange text-white w-[1.5em] h-[1.5em] text-[.9rem] flex items-center justify-center rounded-full">{{ city.count }}</span>
         </LegosButton>
       </li>
     </ul>
